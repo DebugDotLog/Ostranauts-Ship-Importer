@@ -9,6 +9,9 @@ This information will be used to select the ship JSON to import and the Save Fil
 The app will NOT modify existing save data, instead it makes a copy of the save before modifying.  
 You'll find the new files in SAVENAME_imported_ship.
 
+Note:  
+I recommend making sure your ship has valid metadata (make/model/year/origin/description) set in the ship editor before importing.
+
 This application requires .NET Desktop Runtime 8.x.  
 https://dotnet.microsoft.com/en-us/download/dotnet/8.0
 ## Screenshot
