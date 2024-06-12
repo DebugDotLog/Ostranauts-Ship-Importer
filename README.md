@@ -16,5 +16,5 @@ This application requires .NET Desktop Runtime 8.x.
 https://dotnet.microsoft.com/en-us/download/dotnet/8.0
 ## Screenshot
 
-![App Screenshot](https://github.com/DebugDotLog/Resources/blob/main/Ostranauts_Ship_Importer_dL1nF4dHeS.png)
+![App Screenshot](https://github.com/DebugDotLog/Resources/blob/main/Ostranauts_Ship_Importer_uZQKmlOXsI.png)
 
