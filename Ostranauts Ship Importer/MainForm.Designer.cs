@@ -44,6 +44,7 @@
             replaceButton = new Button();
             quitButton = new Button();
             successLabel = new Label();
+            randomizeCheckBox = new CheckBox();
             importGroupBox.SuspendLayout();
             replaceGroupBox.SuspendLayout();
             SuspendLayout();
@@ -105,6 +106,7 @@
             // 
             // replaceGroupBox
             // 
+            replaceGroupBox.Controls.Add(randomizeCheckBox);
             replaceGroupBox.Controls.Add(replaceShipCombolabel);
             replaceGroupBox.Controls.Add(readSaveButton);
             replaceGroupBox.Controls.Add(replaceShipComboBox);
@@ -149,6 +151,7 @@
             replaceShipComboBox.Name = "replaceShipComboBox";
             replaceShipComboBox.Size = new Size(209, 23);
             replaceShipComboBox.TabIndex = 6;
+            replaceShipComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             // 
             // replaceTextLabel
             // 
@@ -205,12 +208,22 @@
             // 
             successLabel.AutoSize = true;
             successLabel.ForeColor = Color.ForestGreen;
-            successLabel.Location = new Point(121, 275);
+            successLabel.Location = new Point(122, 279);
             successLabel.Margin = new Padding(4, 0, 4, 0);
             successLabel.Name = "successLabel";
             successLabel.Size = new Size(51, 15);
             successLabel.TabIndex = 10;
             successLabel.Text = "Success!";
+            // 
+            // checkBox1
+            // 
+            randomizeCheckBox.AutoSize = true;
+            randomizeCheckBox.Location = new Point(322, 95);
+            randomizeCheckBox.Name = "randomizeCheckBox";
+            randomizeCheckBox.Size = new Size(83, 19);
+            randomizeCheckBox.TabIndex = 11;
+            randomizeCheckBox.Text = "Surprise Me!";
+            randomizeCheckBox.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -251,5 +264,6 @@
         private System.Windows.Forms.Button quitButton;
         private System.Windows.Forms.Button readSaveButton;
         private System.Windows.Forms.Label successLabel;
+        private CheckBox randomizeCheckBox;
     }
 }

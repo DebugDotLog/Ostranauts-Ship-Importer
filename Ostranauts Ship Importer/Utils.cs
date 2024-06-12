@@ -49,7 +49,6 @@ namespace Ostranauts_Ship_Importer
                     }
                 }
             }
-
             return null;
         }
         // Copies the existing save to new folder and updates the selected ship file and the saveInfo JSONs 
@@ -122,6 +121,28 @@ namespace Ostranauts_Ship_Importer
                 // Also replace saveInfo.json in the zip file (why!?)
                 zip.CreateEntryFromFile(newFolder + "saveInfo.json", "saveInfo.json");
                 zip.Dispose();
+            }
+        }
+        // Creates a List of Shipnames to populate combobox
+        public static List<string> GenerateShipList(string saveFile)
+        {
+            List<string> shipList = [];
+            using (ZipArchive zip = ZipFile.OpenRead(saveFile))
+            {
+                foreach (ZipArchiveEntry entry in zip.Entries)
+                {
+                    string ship = entry.FullName;
+                    if (ship.StartsWith("ships/") && ship.EndsWith(".json"))
+                    {
+                        string shortShip = ship.Substring(6);
+                        if (shortShip[1] == '-')
+                        {
+                            shortShip = shortShip.Replace(".json", "");
+                            shipList.Add(shortShip);
+                        }
+                    }
+                }
+                return shipList;
             }
         }
     }

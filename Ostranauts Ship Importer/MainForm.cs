@@ -16,6 +16,7 @@ namespace Ostranauts_Ship_Importer
             replaceShipComboBox.Enabled = false;
             replaceButton.Enabled = false;
             readSaveButton.Enabled = false;
+            randomizeCheckBox.Enabled = false;
             successLabel.Hide();
         }
 
@@ -34,7 +35,7 @@ namespace Ostranauts_Ship_Importer
             if (result == DialogResult.OK)
             {
                 string file = fDialog.FileName;
-                this.importText.Text = file;
+                importText.Text = file;
             }
         }
 
@@ -52,54 +53,51 @@ namespace Ostranauts_Ship_Importer
             if (result == DialogResult.OK)
             {
                 string file = fDialog.FileName;
-                this.replaceText.Text = file;
-                this.readSaveButton.Enabled = true;
+                replaceText.Text = file;
+                readSaveButton.Enabled = true;
             }
         }
 
         private void ReadSaveButton_Click(object sender, EventArgs e)
         {
-            List<string> shipList = [];
+            List<string> shipList = Utils.GenerateShipList(replaceText.Text);
 
-            using (ZipArchive zip = ZipFile.OpenRead(this.replaceText.Text))
-            {
-                foreach (ZipArchiveEntry entry in zip.Entries)
-                {
-                    string ship = entry.FullName;
-                    if (ship.StartsWith("ships/") && ship.EndsWith(".json"))
-                    {
-                        string shortShip = ship.Substring(6);
-                        shortShip = shortShip.Replace(".json", "");
-                        shipList.Add(shortShip);
-                    }
-                }
-            }
-
-            this.replaceShipComboBox.DataSource = shipList;
+            replaceShipComboBox.DataSource = shipList;
             if (shipList != null)
             {
-                this.replaceShipComboBox.Enabled = true;
-                this.replaceButton.Enabled = true;
+                replaceShipComboBox.Enabled = true;
+                replaceButton.Enabled = true;
+                randomizeCheckBox.Enabled = true;
             }
         }
 
         private void ReplaceButton_Click(object sender, EventArgs e)
         {
-            string shipFileName = this.replaceShipComboBox.SelectedItem + ".json";
+            string jsonExtension = ".json";
+            string shipFileName = replaceShipComboBox.SelectedItem + jsonExtension;
 
-            Ship replaceShip = Utils.ReadShipFromSave(shipFileName, this.replaceText.Text);
+            // Logic for ship randomizer option, overwrites shipFileName
+            if (randomizeCheckBox.Checked)
+            {
+                var random = new Random();
+                int i = random.Next(shipFileName.Length);
+                shipFileName = replaceShipComboBox.Items[i].ToString() + jsonExtension;
+                System.Diagnostics.Debug.WriteLine(shipFileName);
+            }
 
-            Ship importShip = Utils.LoadJson<Ship>(File.ReadAllText(this.importText.Text));
-            Ship outShip = Utils.SwapShipData(importShip, replaceShip, this.unharmedCheckBox.Checked);
+            Ship replaceShip = Utils.ReadShipFromSave(shipFileName, replaceText.Text);
 
-            Utils.SaveFiles(this.replaceText.Text, shipFileName, outShip);
+            Ship importShip = Utils.LoadJson<Ship>(File.ReadAllText(importText.Text));
+            Ship outShip = Utils.SwapShipData(importShip, replaceShip, unharmedCheckBox.Checked);
+
+            Utils.SaveFiles(replaceText.Text, shipFileName, outShip);
 
             successLabel.Show();
         }
 
         private void closeButton_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
     }
 }
