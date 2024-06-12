@@ -35,6 +35,7 @@
             importBrowseButton = new Button();
             importText = new TextBox();
             replaceGroupBox = new GroupBox();
+            randomizeCheckBox = new CheckBox();
             replaceShipCombolabel = new Label();
             readSaveButton = new Button();
             replaceShipComboBox = new ComboBox();
@@ -44,7 +45,6 @@
             replaceButton = new Button();
             quitButton = new Button();
             successLabel = new Label();
-            randomizeCheckBox = new CheckBox();
             importGroupBox.SuspendLayout();
             replaceGroupBox.SuspendLayout();
             SuspendLayout();
@@ -122,6 +122,16 @@
             replaceGroupBox.TabStop = false;
             replaceGroupBox.Text = "Replacing";
             // 
+            // randomizeCheckBox
+            // 
+            randomizeCheckBox.AutoSize = true;
+            randomizeCheckBox.Location = new Point(322, 95);
+            randomizeCheckBox.Name = "randomizeCheckBox";
+            randomizeCheckBox.Size = new Size(91, 19);
+            randomizeCheckBox.TabIndex = 11;
+            randomizeCheckBox.Text = "Surprise Me!";
+            randomizeCheckBox.UseVisualStyleBackColor = true;
+            // 
             // replaceShipCombolabel
             // 
             replaceShipCombolabel.AutoSize = true;
@@ -145,13 +155,13 @@
             // 
             // replaceShipComboBox
             // 
+            replaceShipComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             replaceShipComboBox.FormattingEnabled = true;
             replaceShipComboBox.Location = new Point(106, 93);
             replaceShipComboBox.Margin = new Padding(4, 3, 4, 3);
             replaceShipComboBox.Name = "replaceShipComboBox";
             replaceShipComboBox.Size = new Size(209, 23);
             replaceShipComboBox.TabIndex = 6;
-            replaceShipComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             // 
             // replaceTextLabel
             // 
@@ -214,16 +224,6 @@
             successLabel.Size = new Size(51, 15);
             successLabel.TabIndex = 10;
             successLabel.Text = "Success!";
-            // 
-            // checkBox1
-            // 
-            randomizeCheckBox.AutoSize = true;
-            randomizeCheckBox.Location = new Point(322, 95);
-            randomizeCheckBox.Name = "randomizeCheckBox";
-            randomizeCheckBox.Size = new Size(83, 19);
-            randomizeCheckBox.TabIndex = 11;
-            randomizeCheckBox.Text = "Surprise Me!";
-            randomizeCheckBox.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
