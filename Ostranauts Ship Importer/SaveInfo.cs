@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Ostranauts_Ship_Importer
 {
+    /// <summary>
+    /// JSON Object container for serialized saveInfo files
+    /// </summary>
     internal class SaveInfo
     {
         public string strName { get; set; }

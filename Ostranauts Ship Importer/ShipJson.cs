@@ -6,54 +6,57 @@ using System.Threading.Tasks;
 
 namespace Ostranauts_Ship_Importer
 {
+    /// <summary>
+    /// JSON Object container for serialized ship files
+    /// </summary>
     public class Ship
-        {
-            public string strName { get; set; }
-            public string strRegID { get; set; }
-            public int nCurrentWaypoint { get; set; }
-            public float fTimeEngaged { get; set; }
-            public float fWearManeuver { get; set; }
-            public float fWearAccrued { get; set; }
-            public string[] aFactions { get; set; }
-            public Aco[] aCOs { get; set; }
-            public Shipco shipCO { get; set; }
-            public Aitem[] aItems { get; set; }
-            public Ashallowpspec[] aShallowPSpecs { get; set; }
-            public Vshippos vShipPos { get; set; }
-            public Objss objSS { get; set; }
-            public Aroom[] aRooms { get; set; }
-            public int DMGStatus { get; set; }
-            public float fLastVisit { get; set; }
-            public float fAIDockingExpire { get; set; }
-            public float fAIDockingTimer { get; set; }
-            public float fAIPauseTimer { get; set; }
-            public bool bPrefill { get; set; }
-            public bool bNoCollisions { get; set; }
-            public float dLastScanTime { get; set; }
-            public bool bLocalAuthority { get; set; }
-            public bool bAIShip { get; set; }
-            public string make { get; set; }
-            public string model { get; set; }
-            public string year { get; set; }
-            public string origin { get; set; }
-            public string description { get; set; }
-            public string designation { get; set; }
-            public string publicName { get; set; }
-            public string dimensions { get; set; }
-            public float fShallowMass { get; set; }
-            public float fShallowRCSRemass { get; set; }
-            public float fShallowRCSRemassMax { get; set; }
-            public float fShallowFusionRemain { get; set; }
-            public float fLastQuotedPrice { get; set; }
-            public float fBreakInMultiplier { get; set; }
-            public float nRCSCount { get; set; }
-            public int nRCSDistroCount { get; set; }
-            public int nDockCount { get; set; }
-            public bool bFusionTorch { get; set; }
-            public bool bXPDRAntenna { get; set; }
-            public bool bShipHidden { get; set; }
-            public int nO2PumpCount { get; set; }
-            public Commdata commData { get; set; }
+    {
+        public string strName { get; set; }
+        public string strRegID { get; set; }
+        public int nCurrentWaypoint { get; set; }
+        public float fTimeEngaged { get; set; }
+        public float fWearManeuver { get; set; }
+        public float fWearAccrued { get; set; }
+        public string[] aFactions { get; set; }
+        public Aco[]? aCOs { get; set; }
+        public Shipco shipCO { get; set; }
+        public Aitem[] aItems { get; set; }
+        public Ashallowpspec[]? aShallowPSpecs { get; set; }
+        public Vshippos vShipPos { get; set; }
+        public Objss objSS { get; set; }
+        public Aroom[] aRooms { get; set; }
+        public int DMGStatus { get; set; }
+        public float fLastVisit { get; set; }
+        public float fAIDockingExpire { get; set; }
+        public float fAIDockingTimer { get; set; }
+        public float fAIPauseTimer { get; set; }
+        public bool bPrefill { get; set; }
+        public bool bNoCollisions { get; set; }
+        public float dLastScanTime { get; set; }
+        public bool bLocalAuthority { get; set; }
+        public bool bAIShip { get; set; }
+        public string make { get; set; }
+        public string model { get; set; }
+        public string year { get; set; }
+        public string origin { get; set; }
+        public string description { get; set; }
+        public string designation { get; set; }
+        public string publicName { get; set; }
+        public string dimensions { get; set; }
+        public float fShallowMass { get; set; }
+        public float fShallowRCSRemass { get; set; }
+        public float fShallowRCSRemassMax { get; set; }
+        public float fShallowFusionRemain { get; set; }
+        public float fLastQuotedPrice { get; set; }
+        public float fBreakInMultiplier { get; set; }
+        public float nRCSCount { get; set; }
+        public int nRCSDistroCount { get; set; }
+        public int nDockCount { get; set; }
+        public bool bFusionTorch { get; set; }
+        public bool bXPDRAntenna { get; set; }
+        public bool bShipHidden { get; set; }
+        public int nO2PumpCount { get; set; }
+        public Commdata? commData { get; set; }
     }
 
     public class Shipco
@@ -121,6 +124,7 @@ namespace Ostranauts_Ship_Importer
 
     public class Commdata
     {
+        public Amessage[]? aMessages { get; set; }
         public float dClearanceRequestTime { get; set; }
         public float dClearanceIssueTimestamp { get; set; }
         public bool bClearanceSquawkID { get; set; }
@@ -160,7 +164,7 @@ namespace Ostranauts_Ship_Importer
     public class Agpmsetting
     {
         public string strName { get; set; }
-        public string[] dictGUIPropMap { get; set; }
+        public string[]? dictGUIPropMap { get; set; }
     }
 
     public class Ashallowpspec
@@ -186,5 +190,29 @@ namespace Ostranauts_Ship_Importer
         public int[] aTiles { get; set; }
         public string roomSpec { get; set; }
         public float roomValue { get; set; }
+    }
+
+    public class Amessage
+    {
+        public string strSenderRegId { get; set; }
+        public string strRecieverRegId { get; set; }
+        public float dAvailableTime { get; set; }
+        public bool bRead { get; set; }
+        public Iamessageinteraction iaMessageInteraction { get; set; }
+        public string strMessageText { get; set; }
+    }
+
+    public class Iamessageinteraction
+    {
+        public string strName { get; set; }
+        public string strChainStart { get; set; }
+        public bool bLogged { get; set; }
+        public bool bRaisedUI { get; set; }
+        public bool bTryWalk { get; set; }
+        public bool bCancel { get; set; }
+        public bool bRetestItems { get; set; }
+        public bool bManual { get; set; }
+        public string objUs { get; set; }
+        public string objThem { get; set; }
     }
 }

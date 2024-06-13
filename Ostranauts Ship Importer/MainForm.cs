@@ -1,4 +1,6 @@
 ﻿using System.IO.Compression;
+using System.Linq.Expressions;
+using System.Reflection.Metadata.Ecma335;
 
 
 namespace Ostranauts_Ship_Importer
@@ -63,36 +65,55 @@ namespace Ostranauts_Ship_Importer
             List<string> shipList = Utils.GenerateShipList(replaceText.Text);
 
             replaceShipComboBox.DataSource = shipList;
-            if (shipList != null)
+            if (shipList.Any())
             {
                 replaceShipComboBox.Enabled = true;
                 replaceButton.Enabled = true;
                 randomizeCheckBox.Enabled = true;
             }
+            else
+            {
+                MessageBox.Show("Error reading save file:\n\n" + replaceText.Text + "\n\nUnrecognized Zip File Structure.", "Error Reading Save File!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
         }
 
         private void ReplaceButton_Click(object sender, EventArgs e)
         {
-            string jsonExtension = ".json";
-            string shipFileName = replaceShipComboBox.SelectedItem + jsonExtension;
+            string shipFileName = replaceShipComboBox.SelectedItem + Utils.jsonExtension;
 
-            // Logic for ship randomizer option, overwrites shipFileName
+            // Logic for ship randomizer option, overwrites above
             if (randomizeCheckBox.Checked)
             {
                 var random = new Random();
                 int i = random.Next(shipFileName.Length);
-                shipFileName = replaceShipComboBox.Items[i].ToString() + jsonExtension;
+                shipFileName = replaceShipComboBox.Items[i].ToString() + Utils.jsonExtension;
                 System.Diagnostics.Debug.WriteLine(shipFileName);
             }
 
             Ship replaceShip = Utils.ReadShipFromSave(shipFileName, replaceText.Text);
+            
+            Ship? importShip = default(Ship);
+            string importShipData;
+            try
+            {
+                importShipData = File.ReadAllText(importText.Text);
+            }
+            catch
+            {
+                MessageBox.Show("Error reading:\n\n" + importText.Text + "\n\nThe file does not exist or could not be accessed.", "Error Reading Import Ship File!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-            Ship importShip = Utils.LoadJson<Ship>(File.ReadAllText(importText.Text));
+            importShip = Utils.LoadJson<Ship>(importShipData);
+
+            if (replaceShip == null || importShip == null)
+                return;
+
             Ship outShip = Utils.SwapShipData(importShip, replaceShip, unharmedCheckBox.Checked);
 
-            Utils.SaveFiles(replaceText.Text, shipFileName, outShip);
-
-            successLabel.Show();
+            if (Utils.SaveFiles(replaceText.Text, shipFileName, outShip))
+                successLabel.Show();
         }
 
         private void closeButton_Click(object sender, EventArgs e)
