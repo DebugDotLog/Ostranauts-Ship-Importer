@@ -1,9 +1,4 @@
-﻿using System.IO.Compression;
-using System.Linq.Expressions;
-using System.Reflection.Metadata.Ecma335;
-
-
-namespace Ostranauts_Ship_Importer
+﻿namespace Ostranauts_Ship_Importer
 {
     public partial class MainForm : Form
     {

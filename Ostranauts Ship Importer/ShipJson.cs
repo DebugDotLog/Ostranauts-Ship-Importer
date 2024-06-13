@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ostranauts_Ship_Importer
+﻿namespace Ostranauts_Ship_Importer
 {
     /// <summary>
     /// JSON Object container for serialized ship files
