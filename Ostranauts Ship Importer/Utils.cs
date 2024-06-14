@@ -70,15 +70,13 @@ namespace Ostranauts_Ship_Importer
         /// <returns></returns>
         public static Ship ReadShipFromSave(string shipFileName, string saveFile)
         {
-            using (ZipArchive zip = ZipFile.OpenRead(saveFile))
+            using ZipArchive zip = ZipFile.OpenRead(saveFile);
+            foreach (ZipArchiveEntry entry in zip.Entries)
             {
-                foreach (ZipArchiveEntry entry in zip.Entries)
+                if (entry.Name == shipFileName)
                 {
-                    if (entry.Name == shipFileName)
-                    {
-                        using (StreamReader sr = new(entry.Open()))
-                            return (Utils.LoadJson<Ship>(sr.ReadToEnd()));
-                    }
+                    using StreamReader sr = new(entry.Open());
+                    return (Utils.LoadJson<Ship>(sr.ReadToEnd()));
                 }
             }
             return null;
@@ -167,37 +165,34 @@ namespace Ostranauts_Ship_Importer
         /// <param name="options">Options for JSON Serialization</param>
         public static void UpdateZippedFiles(string newFolder, string newFileName, string shipName, Ship outShip, JsonSerializerOptions options)
         {
-            using (ZipArchive zip = ZipFile.Open(newFolder + newFileName, ZipArchiveMode.Update))
+            using ZipArchive zip = ZipFile.Open(newFolder + newFileName, ZipArchiveMode.Update);
+            foreach (ZipArchiveEntry entry in zip.Entries)
             {
-
-                foreach (ZipArchiveEntry entry in zip.Entries)
+                if (entry.Name == saveInfoFile || entry.Name == shipName)
                 {
-                    if (entry.Name == saveInfoFile || entry.Name == shipName)
-                    {
-                        entry.Delete();
-                        break;
-                    }
+                    entry.Delete();
+                    break;
                 }
-
-                foreach (ZipArchiveEntry entry in zip.Entries)
-                {
-                    if (entry.Name == shipName)
-                    {
-                        entry.Delete();
-                        break;
-                    }
-                }
-
-                ZipArchiveEntry shipEntry = zip.CreateEntry(@"ships\" + shipName);
-                using (StreamWriter writer = new(shipEntry.Open()))
-                {
-                    Ship[] shipArray = [outShip];
-                    writer.Write(JsonSerializer.Serialize(shipArray, options));
-                }
-
-                // Also replace saveInfo.json in the zip file (why!?)
-                zip.CreateEntryFromFile(newFolder + saveInfoFile, saveInfoFile);
             }
+
+            foreach (ZipArchiveEntry entry in zip.Entries)
+            {
+                if (entry.Name == shipName)
+                {
+                    entry.Delete();
+                    break;
+                }
+            }
+
+            ZipArchiveEntry shipEntry = zip.CreateEntry(@"ships\" + shipName);
+            using (StreamWriter writer = new(shipEntry.Open()))
+            {
+                Ship[] shipArray = [outShip];
+                writer.Write(JsonSerializer.Serialize(shipArray, options));
+            }
+
+            // Also replace saveInfo.json in the zip file (why!?)
+            zip.CreateEntryFromFile(newFolder + saveInfoFile, saveInfoFile);
         }
 
         /// <summary>
@@ -208,23 +203,21 @@ namespace Ostranauts_Ship_Importer
         public static List<string> GenerateShipList(string saveFile)
         {
             List<string>? shipList = new();
-            using (ZipArchive zip = ZipFile.OpenRead(saveFile))
+            using ZipArchive zip = ZipFile.OpenRead(saveFile);
+            foreach (ZipArchiveEntry entry in zip.Entries)
             {
-                foreach (ZipArchiveEntry entry in zip.Entries)
+                string ship = entry.FullName;
+                if (ship.StartsWith("ships/") && ship.EndsWith(jsonExtension))
                 {
-                    string ship = entry.FullName;
-                    if (ship.StartsWith("ships/") && ship.EndsWith(jsonExtension))
+                    string shortShip = ship.Substring(6);
+                    if (shortShip[1] == '-')
                     {
-                        string shortShip = ship.Substring(6);
-                        if (shortShip[1] == '-')
-                        {
-                            shortShip = shortShip.Replace(jsonExtension, "");
-                            shipList.Add(shortShip);
-                        }
+                        shortShip = shortShip.Replace(jsonExtension, "");
+                        shipList.Add(shortShip);
                     }
                 }
-                return shipList;
             }
+            return shipList;
         }
     }
 
