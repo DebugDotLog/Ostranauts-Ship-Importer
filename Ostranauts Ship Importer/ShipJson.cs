@@ -21,6 +21,7 @@
         public Aroom[] aRooms { get; set; }
         public int DMGStatus { get; set; }
         public float fLastVisit { get; set; }
+        public float fFirstVisit { get; set; }
         public float fAIDockingExpire { get; set; }
         public float fAIDockingTimer { get; set; }
         public float fAIPauseTimer { get; set; }

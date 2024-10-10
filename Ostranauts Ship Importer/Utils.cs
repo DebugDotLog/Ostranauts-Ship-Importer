@@ -58,6 +58,8 @@ namespace Ostranauts_Ship_Importer
             {
                 replaceShip.bPrefill = false;
             }
+            replaceShip.fFirstVisit = 0.0f;
+            replaceShip.fLastVisit = 0.0f;
 
             return replaceShip;
         }
@@ -98,7 +100,7 @@ namespace Ostranauts_Ship_Importer
             string newFileName = oldFileName.Substring(FirstIndex, oldFileName.LastIndexOf('.')) + "_imported_ship.zip";
 
             // set up options for reserialization of JSON from strings
-            var options = new JsonSerializerOptions { WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull };
+            var options = new JsonSerializerOptions { WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals };
 
             // If the new folder doesn't already exist, copy save data to new folder 
             if (Directory.Exists(newFolder))
@@ -188,7 +190,9 @@ namespace Ostranauts_Ship_Importer
             using (StreamWriter writer = new(shipEntry.Open()))
             {
                 Ship[] shipArray = [outShip];
-                writer.Write(JsonSerializer.Serialize(shipArray, options));
+                string jShip = JsonSerializer.Serialize(shipArray, options);
+                jShip = jShip.Replace("\"Infinity\"", "9E99");
+                writer.Write(jShip);
             }
 
             // Also replace saveInfo.json in the zip file (why!?)
