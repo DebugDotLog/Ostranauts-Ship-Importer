@@ -127,10 +127,11 @@
             randomizeCheckBox.AutoSize = true;
             randomizeCheckBox.Location = new Point(322, 95);
             randomizeCheckBox.Name = "randomizeCheckBox";
-            randomizeCheckBox.Size = new Size(91, 19);
+            randomizeCheckBox.Size = new Size(173, 19);
             randomizeCheckBox.TabIndex = 11;
-            randomizeCheckBox.Text = "Surprise Me!";
+            randomizeCheckBox.Text = "Surprise Me! (Random Ship)";
             randomizeCheckBox.UseVisualStyleBackColor = true;
+            randomizeCheckBox.CheckedChanged += randomizeCheckBox_CheckedChanged;
             // 
             // replaceShipCombolabel
             // 

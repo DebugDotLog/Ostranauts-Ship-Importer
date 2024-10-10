@@ -87,7 +87,7 @@
             }
 
             Ship replaceShip = Utils.ReadShipFromSave(shipFileName, replaceText.Text);
-            
+
             Ship? importShip = default(Ship);
             string importShipData;
             try
@@ -114,6 +114,14 @@
         private void closeButton_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void randomizeCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (randomizeCheckBox.Checked)
+                replaceShipComboBox.Enabled = false;
+            else replaceShipComboBox.Enabled = true;
+
         }
     }
 }
