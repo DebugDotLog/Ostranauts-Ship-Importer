@@ -11,7 +11,6 @@ You'll find the new files in SAVENAME_imported_ship.
 
 Note:  
 I recommend making sure your ship has valid metadata (make/model/year/origin/description) set in the ship editor before importing.
-It's possible there is an issue with Astronauts 0.14.0.15. Please report any you find as I investigate.
 
 This application requires .NET Desktop Runtime 8.x.  
 https://dotnet.microsoft.com/en-us/download/dotnet/8.0
