@@ -52,8 +52,15 @@ namespace Ostranauts_Ship_Importer
             replaceShip.origin = importShip.origin;
             replaceShip.description = importShip.description;
             replaceShip.objSS.bBOLocked = false;
-            replaceShip.aCOs = null;
             replaceShip.aShallowPSpecs = null;
+            if (importShip.aCOs == null || importShip.aCOs.Length == 0)
+            {
+                replaceShip.aCOs = null;
+            }
+            else
+            {
+                replaceShip.aCOs = importShip.aCOs;
+            }
             if (unharmed)
             {
                 replaceShip.bPrefill = false;

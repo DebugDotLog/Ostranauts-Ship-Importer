@@ -11,7 +11,8 @@
         public float fTimeEngaged { get; set; }
         public float fWearManeuver { get; set; }
         public float fWearAccrued { get; set; }
-        public string[] aFactions { get; set; }
+        public string[]? aProxCurrent { get; set; }
+        public string[]? aProxIgnores { get; set; }
         public Aco[]? aCOs { get; set; }
         public Shipco shipCO { get; set; }
         public Aitem[] aItems { get; set; }
@@ -23,9 +24,9 @@
         public float fLastVisit { get; set; }
         public float fFirstVisit { get; set; }
         public float fAIDockingExpire { get; set; }
-        public float fAIDockingTimer { get; set; }
         public float fAIPauseTimer { get; set; }
         public bool bPrefill { get; set; }
+        public bool bBreakInUsed { get; set; }
         public bool bNoCollisions { get; set; }
         public float dLastScanTime { get; set; }
         public bool bLocalAuthority { get; set; }
@@ -38,20 +39,31 @@
         public string designation { get; set; }
         public string publicName { get; set; }
         public string dimensions { get; set; }
+        public string[] aRating { get; set; }
         public float fShallowMass { get; set; }
         public float fShallowRCSRemass { get; set; }
         public float fShallowRCSRemassMax { get; set; }
         public float fShallowFusionRemain { get; set; }
+        public float fFusionThrustMax { get; set; }
+        public float fFusionPelletMax { get; set; }
         public float fLastQuotedPrice { get; set; }
+        public float fEpochNextGrav { get; set; }
         public float fBreakInMultiplier { get; set; }
         public float nRCSCount { get; set; }
+        public float fShallowRotorStrength { get; set; }
         public int nRCSDistroCount { get; set; }
+        public float fAeroCoefficient { get; set; }
         public int nDockCount { get; set; }
         public bool bFusionTorch { get; set; }
+        public string strXPDR { get; set; }
         public bool bXPDRAntenna { get; set; }
         public bool bShipHidden { get; set; }
+        public bool bIsUnderConstruction { get; set; }
         public int nO2PumpCount { get; set; }
         public Commdata? commData { get; set; }
+        public int ShipType { get; set; }
+        public int nConstructionProgress { get; set; }
+        public int nInitConstructionProgress { get; set; }
     }
 
     public class Shipco
@@ -67,8 +79,10 @@
         public float fLastICOUpdate { get; set; }
         public int nDestTile { get; set; }
         public string strIdleAnim { get; set; }
+        public string[] aMyShips { get; set; }
         public string strFriendlyName { get; set; }
         public string strRegIDLast { get; set; }
+        public float fMSRedamageAmount { get; set; }
     }
 
     public class Vshippos
@@ -86,9 +100,15 @@
         public float vBOOffsety { get; set; }
         public float vVelX { get; set; }
         public float vVelY { get; set; }
+        public float fPathLastEpoch { get; set; }
         public Vaccin vAccIn { get; set; }
         public Vaccrcs vAccRCS { get; set; }
         public Vaccex vAccEx { get; set; }
+        public float[] aPathRecentT { get; set; }
+        public float[] aPathRecentX { get; set; }
+        public float[] aPathRecentY { get; set; }
+        public Vacclift vAccLift { get; set; }
+        public Vaccdrag vAccDrag { get; set; }
         public float fRot { get; set; }
         public float fW { get; set; }
         public float fA { get; set; }
@@ -97,6 +117,7 @@
         public bool bIsRegion { get; set; }
         public bool bIsNoFees { get; set; }
         public int size { get; set; }
+        public bool bIgnoreGrav { get; set; }
     }
 
     public class Vaccin
@@ -112,6 +133,18 @@
     }
 
     public class Vaccex
+    {
+        public float x { get; set; }
+        public float y { get; set; }
+    }
+
+    public class Vacclift
+    {
+        public float x { get; set; }
+        public float y { get; set; }
+    }
+
+    public class Vaccdrag
     {
         public float x { get; set; }
         public float y { get; set; }
@@ -139,10 +172,10 @@
         public int nDestTile { get; set; }
         public string strIdleAnim { get; set; }
         public string[] aMyShips { get; set; }
-        public string[] aFactions { get; set; }
         public string strIMGPreview { get; set; }
         public string strFriendlyName { get; set; }
         public string strRegIDLast { get; set; }
+        public float fMSRedamageAmount { get; set; }
     }
 
     public class Aitem
@@ -152,8 +185,9 @@
         public float fY { get; set; }
         public float fRotation { get; set; }
         public string strID { get; set; }
-        public bool bForceLoad { get; set; }
-        public Agpmsetting[] aGPMSettings { get; set; }
+        public Agpmsetting[]? aGPMSettings { get; set; }
+        public string strSlotParentID { get; set; }
+        public string strParentID { get; set; }
     }
 
     public class Agpmsetting
