@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            Button exportButton;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             importGroupBox = new GroupBox();
             unharmedCheckBox = new CheckBox();
@@ -45,9 +46,20 @@
             replaceButton = new Button();
             quitButton = new Button();
             successLabel = new Label();
+            exportButton = new Button();
             importGroupBox.SuspendLayout();
             replaceGroupBox.SuspendLayout();
             SuspendLayout();
+            // 
+            // exportButton
+            // 
+            exportButton.Location = new Point(26, 273);
+            exportButton.Name = "exportButton";
+            exportButton.Size = new Size(88, 27);
+            exportButton.TabIndex = 12;
+            exportButton.Text = "Export Ship";
+            exportButton.UseVisualStyleBackColor = true;
+            exportButton.Click += exportButton_Click;
             // 
             // importGroupBox
             // 
@@ -62,7 +74,7 @@
             importGroupBox.Size = new Size(574, 106);
             importGroupBox.TabIndex = 3;
             importGroupBox.TabStop = false;
-            importGroupBox.Text = "Importing";
+            importGroupBox.Text = "Ship File";
             // 
             // unharmedCheckBox
             // 
@@ -78,7 +90,7 @@
             // importTextLabel
             // 
             importTextLabel.AutoSize = true;
-            importTextLabel.Location = new Point(8, 29);
+            importTextLabel.Location = new Point(12, 29);
             importTextLabel.Margin = new Padding(4, 0, 4, 0);
             importTextLabel.Name = "importTextLabel";
             importTextLabel.Size = new Size(158, 15);
@@ -120,28 +132,28 @@
             replaceGroupBox.Size = new Size(574, 140);
             replaceGroupBox.TabIndex = 7;
             replaceGroupBox.TabStop = false;
-            replaceGroupBox.Text = "Replacing";
+            replaceGroupBox.Text = "Save File";
             // 
             // randomizeCheckBox
             // 
             randomizeCheckBox.AutoSize = true;
             randomizeCheckBox.Location = new Point(322, 95);
             randomizeCheckBox.Name = "randomizeCheckBox";
-            randomizeCheckBox.Size = new Size(173, 19);
+            randomizeCheckBox.Size = new Size(111, 19);
             randomizeCheckBox.TabIndex = 11;
-            randomizeCheckBox.Text = "Surprise Me! (Random Ship)";
+            randomizeCheckBox.Text = "Randomize Ship";
             randomizeCheckBox.UseVisualStyleBackColor = true;
             randomizeCheckBox.CheckedChanged += randomizeCheckBox_CheckedChanged;
             // 
             // replaceShipCombolabel
             // 
             replaceShipCombolabel.AutoSize = true;
-            replaceShipCombolabel.Location = new Point(103, 74);
+            replaceShipCombolabel.Location = new Point(106, 73);
             replaceShipCombolabel.Margin = new Padding(4, 0, 4, 0);
             replaceShipCombolabel.Name = "replaceShipCombolabel";
-            replaceShipCombolabel.Size = new Size(141, 15);
+            replaceShipCombolabel.Size = new Size(169, 15);
             replaceShipCombolabel.TabIndex = 7;
-            replaceShipCombolabel.Text = "Select the ship to replace:";
+            replaceShipCombolabel.Text = "Select a ship from the save file:";
             // 
             // readSaveButton
             // 
@@ -163,11 +175,12 @@
             replaceShipComboBox.Name = "replaceShipComboBox";
             replaceShipComboBox.Size = new Size(209, 23);
             replaceShipComboBox.TabIndex = 6;
+            replaceShipComboBox.SelectionChangeCommitted += replaceShipComboBox_SelectionChangeCommitted;
             // 
             // replaceTextLabel
             // 
             replaceTextLabel.AutoSize = true;
-            replaceTextLabel.Location = new Point(8, 29);
+            replaceTextLabel.Location = new Point(12, 29);
             replaceTextLabel.Margin = new Padding(4, 0, 4, 0);
             replaceTextLabel.Name = "replaceTextLabel";
             replaceTextLabel.Size = new Size(213, 15);
@@ -195,7 +208,7 @@
             // 
             // replaceButton
             // 
-            replaceButton.Location = new Point(26, 273);
+            replaceButton.Location = new Point(121, 273);
             replaceButton.Margin = new Padding(4, 3, 4, 3);
             replaceButton.Name = "replaceButton";
             replaceButton.Size = new Size(88, 27);
@@ -219,7 +232,7 @@
             // 
             successLabel.AutoSize = true;
             successLabel.ForeColor = Color.ForestGreen;
-            successLabel.Location = new Point(122, 279);
+            successLabel.Location = new Point(217, 279);
             successLabel.Margin = new Padding(4, 0, 4, 0);
             successLabel.Name = "successLabel";
             successLabel.Size = new Size(51, 15);
@@ -231,6 +244,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(606, 315);
+            Controls.Add(exportButton);
             Controls.Add(successLabel);
             Controls.Add(quitButton);
             Controls.Add(replaceButton);
@@ -239,7 +253,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4, 3, 4, 3);
             Name = "MainForm";
-            Text = "Ostranauts Ship Replacer";
+            Text = "Ostranauts Ship Manager";
             Load += MainForm_Load;
             importGroupBox.ResumeLayout(false);
             importGroupBox.PerformLayout();
@@ -266,5 +280,6 @@
         private System.Windows.Forms.Button readSaveButton;
         private System.Windows.Forms.Label successLabel;
         private CheckBox randomizeCheckBox;
+        private Button exportButton;
     }
 }

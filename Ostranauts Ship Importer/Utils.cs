@@ -1,6 +1,6 @@
 ﻿using System.IO.Compression;
-using System.Text.Json.Serialization;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Ostranauts_Ship_Importer
 {
@@ -99,9 +99,6 @@ namespace Ostranauts_Ship_Importer
             string oldFileName = saveFile.Substring(1 + saveFile.LastIndexOf("\\"));
             string newFileName = oldFileName.Substring(FirstIndex, oldFileName.LastIndexOf('.')) + "_imported_ship.zip";
 
-            // set up options for reserialization of JSON from strings
-            var options = new JsonSerializerOptions { WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals };
-
             // If the new folder doesn't already exist, copy save data to new folder 
             if (Directory.Exists(newFolder))
             {
@@ -112,9 +109,9 @@ namespace Ostranauts_Ship_Importer
 
             File.Move(newFolder + oldFileName, newFolder + newFileName);
 
-            UpdateSaveInfo(newFolder, options);
+            UpdateSaveInfo(newFolder);
 
-            UpdateZippedFiles(newFolder, newFileName, shipName, outShip, options);
+            UpdateZippedFiles(newFolder, newFileName, shipName, outShip);
 
             return true;
         }
@@ -123,8 +120,7 @@ namespace Ostranauts_Ship_Importer
         /// Open, modify and save saveInfo changes (save name, save log, and time) in <paramref name="newFolder"/>.
         /// </summary>
         /// <param name="newFolder">Name of new save folder</param>
-        /// <param name="options">Options info for JSON serialation</param>
-        public static void UpdateSaveInfo(string newFolder, JsonSerializerOptions options)
+        public static void UpdateSaveInfo(string newFolder)
         {
             string? saveInfoData = null;
             string fullInfoFilename = newFolder + saveInfoFile;
@@ -153,7 +149,7 @@ namespace Ostranauts_Ship_Importer
             saveInfo.realWorldTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
             SaveInfo[] saveInfoArray = { saveInfo };
-            string output = JsonSerializer.Serialize(saveInfoArray, options);
+            string output = JsonSerializer.Serialize(saveInfoArray);
             File.WriteAllText(newFolder + saveInfoFile, output);
         }
 
@@ -164,8 +160,7 @@ namespace Ostranauts_Ship_Importer
         /// <param name="newFileName">Name of the new save file</param>
         /// <param name="shipName">Filename of the modified ship</param>
         /// <param name="outShip">The modified Ship data</param>
-        /// <param name="options">Options for JSON Serialization</param>
-        public static void UpdateZippedFiles(string newFolder, string newFileName, string shipName, Ship outShip, JsonSerializerOptions options)
+        public static void UpdateZippedFiles(string newFolder, string newFileName, string shipName, Ship outShip)
         {
             using ZipArchive zip = ZipFile.Open(newFolder + newFileName, ZipArchiveMode.Update);
             foreach (ZipArchiveEntry entry in zip.Entries)
@@ -189,9 +184,7 @@ namespace Ostranauts_Ship_Importer
             ZipArchiveEntry shipEntry = zip.CreateEntry(@"ships\" + shipName);
             using (StreamWriter writer = new(shipEntry.Open()))
             {
-                Ship[] shipArray = [outShip];
-                string jShip = JsonSerializer.Serialize(shipArray, options);
-                jShip = jShip.Replace("\"Infinity\"", "9E99");
+                string jShip = SerializeShip(outShip);
                 writer.Write(jShip);
             }
 
@@ -222,6 +215,20 @@ namespace Ostranauts_Ship_Importer
                 }
             }
             return shipList;
+        }
+
+        /// <summary>
+        /// Returns string containing Serialized Ship JSON
+        /// </summary>
+        /// <param name="selectedShip">Ship object to serialize as string</param>
+        /// <returns></returns>
+        public static string SerializeShip(Ship selectedShip)
+        {
+            JsonSerializerOptions shipOptions = new JsonSerializerOptions { WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals };
+            Ship[] shipArray = [selectedShip];
+            string jShip = JsonSerializer.Serialize(shipArray, shipOptions);
+            jShip = jShip.Replace("\"Infinity\"", "9E99");
+            return jShip;
         }
     }
 

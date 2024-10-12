@@ -2,6 +2,7 @@
 {
     public partial class MainForm : Form
     {
+        
         public MainForm()
         {
             InitializeComponent();
@@ -122,6 +123,42 @@
                 replaceShipComboBox.Enabled = false;
             else replaceShipComboBox.Enabled = true;
 
+        }
+
+        private void exportButton_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog fDialog = new()
+            {
+                Title = "Export Selected Ship File",
+                Filter = "JSON Files|*.json",
+                InitialDirectory = @"%ProgramFiles(x86)%\Steam\steamapps\common\Ostranauts\Ostranauts_Data\StreamingAssets\data\ships\",
+                FileName = replaceShipComboBox.Text
+            };
+
+            DialogResult result = fDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                string shipFileName = replaceShipComboBox.SelectedItem + Utils.jsonExtension;
+
+                // Logic for ship randomizer option, overwrites above
+                if (randomizeCheckBox.Checked)
+                {
+                    var random = new Random();
+                    int i = random.Next(shipFileName.Length);
+                    shipFileName = replaceShipComboBox.Items[i].ToString() + Utils.jsonExtension;
+                    System.Diagnostics.Debug.WriteLine(shipFileName);
+                }
+                Ship exportShip = Utils.ReadShipFromSave(shipFileName, replaceText.Text);
+                exportShip.strName = exportShip.strRegID;
+                string jShip = Utils.SerializeShip(exportShip);
+
+                File.WriteAllText(fDialog.FileName, jShip);
+                successLabel.Show();
+            }
+        }
+        private void replaceShipComboBox_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            successLabel.Hide();
         }
     }
 }
