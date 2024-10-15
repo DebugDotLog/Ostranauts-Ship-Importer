@@ -48,6 +48,8 @@
         private void ReplaceBrowseButton_Click(object sender, EventArgs e)
         {
             successLabel.Hide();
+            replaceShipComboBox.Enabled= false;
+            replaceShipComboBox.DataSource = null;
             string localLow = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData).ToString() + "Low";
             OpenFileDialog fDialog = new()
             {
@@ -119,7 +121,10 @@
             Ship outShip = Utils.SwapShipData(importShip, replaceShip, unharmedCheckBox.Checked);
 
             if (Utils.SaveFiles(replaceText.Text, shipFileName, outShip))
+            {
+                successLabel.Text = "Replacement Successful!";
                 successLabel.Show();
+            }
         }
 
         private void closeButton_Click(object sender, EventArgs e)
@@ -163,6 +168,7 @@
                 string jShip = Utils.SerializeShip(exportShip);
 
                 File.WriteAllText(fDialog.FileName, jShip);
+                successLabel.Text = "Export Successful!";
                 successLabel.Show();
             }
         }

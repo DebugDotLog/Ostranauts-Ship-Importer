@@ -50,16 +50,6 @@
             replaceGroupBox.SuspendLayout();
             SuspendLayout();
             // 
-            // exportButton
-            // 
-            exportButton.Location = new Point(26, 273);
-            exportButton.Name = "exportButton";
-            exportButton.Size = new Size(88, 27);
-            exportButton.TabIndex = 12;
-            exportButton.Text = "Export Ship";
-            exportButton.UseVisualStyleBackColor = true;
-            exportButton.Click += exportButton_Click;
-            // 
             // importGroupBox
             // 
             importGroupBox.Controls.Add(unharmedCheckBox);
@@ -117,6 +107,7 @@
             // 
             // replaceGroupBox
             // 
+            replaceGroupBox.Controls.Add(exportButton);
             replaceGroupBox.Controls.Add(randomizeCheckBox);
             replaceGroupBox.Controls.Add(replaceShipCombolabel);
             replaceGroupBox.Controls.Add(readSaveButton);
@@ -207,7 +198,7 @@
             // 
             // replaceButton
             // 
-            replaceButton.Location = new Point(121, 273);
+            replaceButton.Location = new Point(26, 273);
             replaceButton.Margin = new Padding(4, 3, 4, 3);
             replaceButton.Name = "replaceButton";
             replaceButton.Size = new Size(88, 27);
@@ -231,19 +222,28 @@
             // 
             successLabel.AutoSize = true;
             successLabel.ForeColor = Color.ForestGreen;
-            successLabel.Location = new Point(217, 279);
+            successLabel.Location = new Point(122, 279);
             successLabel.Margin = new Padding(4, 0, 4, 0);
             successLabel.Name = "successLabel";
             successLabel.Size = new Size(51, 15);
             successLabel.TabIndex = 10;
-            successLabel.Text = "Success!";
+            successLabel.Text = "";
+            // 
+            // exportButton
+            // 
+            exportButton.Location = new Point(474, 91);
+            exportButton.Name = "exportButton";
+            exportButton.Size = new Size(88, 27);
+            exportButton.TabIndex = 12;
+            exportButton.Text = "Export Ship";
+            exportButton.UseVisualStyleBackColor = true;
+            exportButton.Click += exportButton_Click;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(606, 315);
-            Controls.Add(exportButton);
             Controls.Add(successLabel);
             Controls.Add(quitButton);
             Controls.Add(replaceButton);

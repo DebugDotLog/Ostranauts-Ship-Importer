@@ -12,6 +12,7 @@ namespace Ostranauts_Ship_Importer
         public static string saveInfoFile = "saveInfo.json";
         public static string jsonExtension = ".json";
         private const int FirstIndex = 0;
+        private static JsonSerializerOptions jsonOptions = new JsonSerializerOptions { WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals };
 
         /// <summary>
         /// Reads <paramref name="json"/> and deserializes into a(n) <typeparamref name="T"/> object
@@ -151,12 +152,18 @@ namespace Ostranauts_Ship_Importer
             if (saveInfo == null)
                 return;
 
+            DateTime now = DateTime.Now;
+
             saveInfo.strName += "_imported_ship";
-            saveInfo.strSaveLog += "* " + DateTime.Now.ToString("M/d/yyyy h:mm:ss tt") + " Ship Imported!\n";
-            saveInfo.realWorldTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            saveInfo.strSaveLog += "* " + now.ToString("M/d/yyyy h:mm:ss tt") + " Ship Imported!\n";
+
+            TimeSpan t = now - new DateTime(1970, 1, 1);
+            saveInfo.epochCreationTime = (long)t.TotalMilliseconds;
+
+            saveInfo.realWorldTime = now.ToString("yyyy-MM-dd HH:mm:ss");
 
             SaveInfo[] saveInfoArray = { saveInfo };
-            string output = JsonSerializer.Serialize(saveInfoArray);
+            string output = JsonSerializer.Serialize(saveInfoArray, jsonOptions);
             File.WriteAllText(newFolder + saveInfoFile, output);
         }
 
@@ -231,9 +238,8 @@ namespace Ostranauts_Ship_Importer
         /// <returns></returns>
         public static string SerializeShip(Ship selectedShip)
         {
-            JsonSerializerOptions shipOptions = new JsonSerializerOptions { WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals };
             Ship[] shipArray = [selectedShip];
-            string jShip = JsonSerializer.Serialize(shipArray, shipOptions);
+            string jShip = JsonSerializer.Serialize(shipArray, jsonOptions);
             jShip = jShip.Replace("\"Infinity\"", "9E99");
             return jShip;
         }
