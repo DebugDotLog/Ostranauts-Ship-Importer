@@ -13,6 +13,7 @@
             unharmedCheckBox.Checked = true;
             replaceShipComboBox.Enabled = false;
             replaceButton.Enabled = false;
+            exportButton.Enabled = false;
             readSaveButton.Enabled = false;
             randomizeCheckBox.Enabled = false;
             successLabel.Hide();
@@ -22,17 +23,24 @@
         {
             successLabel.Hide();
 
+            string shipDir = "";
+            if (File.Exists("ShipMan.ini"))
+            {
+                shipDir = File.ReadAllText("ShipMan.ini");
+            }
+
             OpenFileDialog fDialog = new()
             {
                 Title = "Choose a JSON file to import",
                 Filter = "JSON Files|*.json",
-                InitialDirectory = @"%ProgramFiles(x86)%\Steam\steamapps\common\Ostranauts\Ostranauts_Data\StreamingAssets\data\ships\"
+                InitialDirectory = shipDir
             };
 
             DialogResult result = fDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
                 string file = fDialog.FileName;
+                File.WriteAllText("ShipMan.ini", file.Substring(0, file.LastIndexOf('\\') + 1));
                 importText.Text = file;
             }
         }
@@ -40,12 +48,13 @@
         private void ReplaceBrowseButton_Click(object sender, EventArgs e)
         {
             successLabel.Hide();
-
+            string localLow = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData).ToString() + "Low";
             OpenFileDialog fDialog = new()
             {
                 Title = "Choose a zip file from the save that will be modified",
                 Filter = "ZIP Files|*.zip",
-                InitialDirectory = @"%APPDATA%\..\LocalLow\Blue Bottle Games\OStranauts\Save\"
+                InitialDirectory = localLow + @"\Blue Bottle Games\Ostranauts\Saves\"
+
             };
             DialogResult result = fDialog.ShowDialog();
             if (result == DialogResult.OK)
@@ -66,6 +75,7 @@
                 replaceShipComboBox.Enabled = true;
                 replaceButton.Enabled = true;
                 randomizeCheckBox.Enabled = true;
+                exportButton.Enabled = true;
             }
             else
             {

@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Button exportButton;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             importGroupBox = new GroupBox();
             unharmedCheckBox = new CheckBox();
